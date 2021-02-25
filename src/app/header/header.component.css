@@ -1,3 +1,10 @@
 .header-container {
-  padding: 15px;
+  display: grid;
+  grid-template: auto / auto 30px;
+  padding: 0 15px;
+  align-items: center;
+}
+
+.spinner-container ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #fff;
 }

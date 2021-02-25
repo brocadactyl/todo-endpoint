@@ -4,7 +4,7 @@
   <div *ngFor="let item of mainData" class="todo-item" [ngClass]="checkStatusStyle(item)">
       <div class="check">
         <mat-checkbox class="todo-check" [formControlName]='"todo" + item.id'
-        (change)="submitCheck(item.id)"></mat-checkbox>
+        (click)="submitCheck($event, item.id)"></mat-checkbox>
       </div>
       <div class="description">{{item.description}}</div>
       <div class="due-date">

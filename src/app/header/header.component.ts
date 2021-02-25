@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataFlowService} from '../services/data-flow.service';
 
 @Component({
   selector: 'app-header',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dataFlowService: DataFlowService) { }
 
   ngOnInit(): void {
   }

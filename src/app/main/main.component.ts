@@ -14,34 +14,33 @@ export class MainComponent implements OnInit {
   constructor(private mainService: MainService) {
   }
 
-  getUrlEndpoint = 'https://944ba3c5-94c3-4369-a9e6-a509d65912e2.mock.pstmn.io/get';
-  patchUrlEndpoint = 'https://944ba3c5-94c3-4369-a9e6-a509d65912e2.mock.pstmn.io/patch/';
   private dataSub: Subscription;
+  private patchSub: Subscription;
   form: FormGroup;
-  // mainData: Todo[];
-  mainData: Todo[] = [
-    {id: '1', description: 'File 2020 Taxes', isComplete: true, dueDate: '2020-03-10T17:50:44.673Z'},
-    {id: '2', description: 'Fold laundry', isComplete: true, dueDate: null},
-    {id: '3', description: 'Call Mom', isComplete: false, dueDate: '2020-06-26T19:00:00.000Z'},
-    {id: '4', description: 'Walk the dog', isComplete: false, dueDate: null},
-    {id: '5', description: 'Feed the cat', isComplete: false, dueDate: '2020-06-24T15:45:00.000Z'},
-    {id: '6', description: 'Run LA marathon', isComplete: false, dueDate: '2021-03-21T13:30:00.000Z'}
-  ];
+  mainData: Todo[];
 
   ngOnInit(): void {
     this.form = new FormGroup({});
     this.dataSub = this.mainService.listUpdate.subscribe(
       (data) => {
         if (data) {
-          // this.configureData(data);
+          this.configureData(data);
+          for (const item of this.mainData) {
+            this.form.addControl('todo' + item.id, new FormControl(item.isComplete));
+          }
         }
       }
     );
-    // this.mainService.getList(this.getUrlEndpoint);
-    this.configureData(this.mainData);
-    for (const item of this.mainData) {
-      this.form.addControl('todo' + item.id, new FormControl(item.isComplete));
-    }
+    this.mainService.getList();
+    this.patchSub = this.mainService.patchUpdate.subscribe(
+      (data) => {
+        if (data) {
+          this.form.get('todo' + data.id).setValue(data.isComplete);
+          this.mainData[this.getTogoObjIndex(data.id)].isComplete = data.isComplete;
+          this.configureData(this.mainData);
+        }
+      }
+    );
   }
 
   configureData(data: any): void {
@@ -88,15 +87,18 @@ export class MainComponent implements OnInit {
     this.mainData = sortedData;
   }
 
-  submitCheck(id: string): void {
-    console.log(id);
+  submitCheck(event: Event, id: string): void {
+    // Stop checkbox from being checked, waits for server response
+    event.preventDefault();
+    const newVal = !this.mainData[this.getTogoObjIndex(id)].isComplete;
+    this.mainService.patchTodo(id, newVal);
+  }
+
+  getTogoObjIndex(id: string): number {
     const todoObj = this.mainData.find(obj => {
       return obj.id === id;
     });
-    const i = this.mainData.indexOf(todoObj);
-    const newVal = !this.mainData[i].isComplete;
-    this.mainService.patchTodo(this.patchUrlEndpoint, id, newVal);
-    this.mainData[i].isComplete = newVal;
+    return this.mainData.indexOf(todoObj);
   }
 
   checkStatusStyle(item: Todo): string {
