@@ -1,0 +1,35 @@
+.main-container {
+  height: 100%;
+  display: grid;
+  grid-template: auto / auto;
+  grid-row-gap: 5px;
+}
+
+.todo-item {
+  display: grid;
+  grid-template: auto / auto 1fr auto;
+  grid-column-gap: 5px;
+  background: #e3e3e3;
+  padding: 5px;
+}
+
+.due-date-item {
+  border: 1px solid black;
+  padding: 0 5px;
+}
+
+.overdue {
+  background: #ffbebe;
+}
+
+/*.normal {*/
+/*  background: #e3e3e3;*/
+/*}*/
+
+.complete {
+  background: #d5ffbe;
+}
+
+.complete .description {
+  text-decoration: line-through;
+}

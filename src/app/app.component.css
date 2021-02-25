@@ -1,0 +1,16 @@
+.content {
+  display: grid;
+  grid-template: 50px auto / auto;
+  margin: 0 auto 32px;
+  padding: 0 16px;
+  max-width: 960px;
+  align-items: center;
+}
+
+app-header {
+  display: grid;
+  background: #007f9f;
+  color: #fff;
+  height: 100%;
+  align-items: center;
+}
