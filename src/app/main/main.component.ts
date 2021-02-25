@@ -11,25 +11,37 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class MainComponent implements OnInit {
 
-  constructor(public mainService: MainService) {
+  constructor(private mainService: MainService) {
   }
 
+  getUrlEndpoint = 'https://944ba3c5-94c3-4369-a9e6-a509d65912e2.mock.pstmn.io/get';
+  patchUrlEndpoint = 'https://944ba3c5-94c3-4369-a9e6-a509d65912e2.mock.pstmn.io/patch/';
   private dataSub: Subscription;
   form: FormGroup;
+  // mainData: Todo[];
+  mainData: Todo[] = [
+    {id: '1', description: 'File 2020 Taxes', isComplete: true, dueDate: '2020-03-10T17:50:44.673Z'},
+    {id: '2', description: 'Fold laundry', isComplete: true, dueDate: null},
+    {id: '3', description: 'Call Mom', isComplete: false, dueDate: '2020-06-26T19:00:00.000Z'},
+    {id: '4', description: 'Walk the dog', isComplete: false, dueDate: null},
+    {id: '5', description: 'Feed the cat', isComplete: false, dueDate: '2020-06-24T15:45:00.000Z'},
+    {id: '6', description: 'Run LA marathon', isComplete: false, dueDate: '2021-03-21T13:30:00.000Z'}
+  ];
 
   ngOnInit(): void {
     this.form = new FormGroup({});
     this.dataSub = this.mainService.listUpdate.subscribe(
       (data) => {
         if (data) {
-          this.configureData(data);
-          for (const item of this.mainService.mainData) {
-            this.form.addControl('todo' + item.id, new FormControl(item.isComplete));
-          }
+          // this.configureData(data);
         }
       }
     );
-    this.mainService.getList();
+    // this.mainService.getList(this.getUrlEndpoint);
+    this.configureData(this.mainData);
+    for (const item of this.mainData) {
+      this.form.addControl('todo' + item.id, new FormControl(item.isComplete));
+    }
   }
 
   configureData(data: any): void {
@@ -73,7 +85,18 @@ export class MainComponent implements OnInit {
         item.dueDate = item.dueDate.toLocaleDateString(undefined, {month: '2-digit', day: '2-digit', year: 'numeric'});
       }
     }
-    this.mainService.mainData = sortedData;
+    this.mainData = sortedData;
+  }
+
+  submitCheck(id: string): void {
+    console.log(id);
+    const todoObj = this.mainData.find(obj => {
+      return obj.id === id;
+    });
+    const i = this.mainData.indexOf(todoObj);
+    const newVal = !this.mainData[i].isComplete;
+    this.mainService.patchTodo(this.patchUrlEndpoint, id, newVal);
+    this.mainData[i].isComplete = newVal;
   }
 
   checkStatusStyle(item: Todo): string {
