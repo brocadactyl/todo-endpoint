@@ -8,11 +8,18 @@
 
 .todo-item {
   display: grid;
-  grid-template: auto / auto 1fr auto;
+  grid-template: auto / auto auto 1fr auto;
   grid-column-gap: 5px;
   background: #e3e3e3;
   padding: 5px;
   border-radius: 5px;
+}
+
+.emoji-container {
+  display: grid;
+  align-self: center;
+  justify-self: start;
+  padding-left: 10px;
 }
 
 .due-date-item {
@@ -43,4 +50,10 @@
 
 .check, ::ng-deep mat-checkbox.mat-checkbox {
   display: grid;
+}
+
+.complete-container {
+  display: grid;
+  justify-self: center;
+  padding: 20px;
 }

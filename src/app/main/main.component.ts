@@ -3,6 +3,7 @@ import {MainService} from '../services/main.service';
 import {Subscription} from 'rxjs';
 import {Todo} from '../models/Todo.model';
 import {FormControl, FormGroup} from '@angular/forms';
+import {EmojiService} from '../services/emoji.service';
 
 @Component({
   selector: 'app-main',
@@ -11,13 +12,14 @@ import {FormControl, FormGroup} from '@angular/forms';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
-  constructor(public mainService: MainService) {
+  constructor(public mainService: MainService, private emojiService: EmojiService) {
   }
 
   private dataSub: Subscription;
   private patchSub: Subscription;
   form: FormGroup;
   mainData: Todo[];
+  allComplete = false;
 
   ngOnInit(): void {
     this.form = new FormGroup({});
@@ -36,8 +38,11 @@ export class MainComponent implements OnInit, OnDestroy {
       (data) => {
         if (data) {
           this.form.get('todo' + data.id).setValue(data.isComplete);
-          this.mainData[this.getTogoObjIndex(data.id)].isComplete = data.isComplete;
+          const i = this.getTogoObjIndex(data.id);
+          this.mainData[i].isComplete = data.isComplete;
+          this.mainData[i].extra = data.isComplete ? this.emojiService.getRandomEmojis() : '';
           this.configureData(this.mainData);
+          this.checkAllComplete();
         }
       }
     );
@@ -112,6 +117,16 @@ export class MainComponent implements OnInit, OnDestroy {
         return 'overdue';
       }
     }
+  }
+
+  checkAllComplete(): void {
+    let numCompleted = 0;
+    for (const item of this.mainData) {
+      if (item.isComplete) {
+        numCompleted++;
+      }
+    }
+    this.allComplete = numCompleted === this.mainData.length;
   }
 
   ngOnDestroy(): void {

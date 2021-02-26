@@ -47,7 +47,7 @@ export class MainService {
       (response) => {
         this.dataFlowService.isDataTransferring = false;
         if (response.body.status === 'success') {
-          const patchObj = { id, isComplete };
+          const patchObj = {id, isComplete};
           this.patchUpdate.next(patchObj);
         }
       }, error => {
@@ -60,7 +60,7 @@ export class MainService {
 
   patchData(patchUrlEndpoint, isComplete): Observable<HttpResponse<any>> {
     return this.httpClient.patch<any>(
-      patchUrlEndpoint, { isComplete }, {
+      patchUrlEndpoint, {isComplete}, {
         headers: new HttpHeaders({'X-Api-Key': this.apiKey, 'Content-Type': 'application/json'}),
         observe: 'response'
       });
