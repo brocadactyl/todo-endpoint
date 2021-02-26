@@ -17,6 +17,7 @@ export class MainService {
   apiKey = 'PMAK-5ef63db179d23c004de50751-10300736bc550d2a891dc4355aab8d7a5c';
   listUpdate = new Subject<Todo[]>();
   patchUpdate = new Subject<any>();
+  showCompleted = true;
 
   getList(): void {
     this.dataFlowService.isDataTransferring = true;
@@ -26,6 +27,7 @@ export class MainService {
         this.listUpdate.next(response.body);
       }, error => {
         this.dataFlowService.isDataTransferring = false;
+        this.dataFlowService.dataError = true;
         console.log('Error:', error);
       }
     );
@@ -50,6 +52,7 @@ export class MainService {
         }
       }, error => {
         this.dataFlowService.isDataTransferring = false;
+        this.dataFlowService.dataError = true;
         console.log('Error:', error);
       }
     );
@@ -61,5 +64,11 @@ export class MainService {
         headers: new HttpHeaders({'X-Api-Key': this.apiKey, 'Content-Type': 'application/json'}),
         observe: 'response'
       });
+  }
+
+  toggleShowCompleted(): void {
+    setTimeout(() => {
+      this.showCompleted = !this.showCompleted;
+    }, 200);
   }
 }

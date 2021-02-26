@@ -1,7 +1,29 @@
 <div class="header-container">
-  <div>Todo App</div>
-  <div  class="spinner-container">
-    <mat-spinner diameter="30" strokeWidth="5" *ngIf="dataFlowService.isDataTransferring">
-    </mat-spinner>
+  <div class="more-menu">
+    <span class="material-icons" [matMenuTriggerFor]="menu">
+      more_vert
+    </span>
+    <mat-menu #menu="matMenu">
+      <button class="menu-button" mat-menu-item (click)="mainService.toggleShowCompleted()">
+            <span class="material-icons" [matMenuTriggerFor]="menu">
+            filter_list
+            </span>
+        <span>{{ this.mainService.showCompleted ? 'Hide' : 'Show' }} Completed</span>
+      </button>
+    </mat-menu>
+  </div>
+  <div class="title">Todo App</div>
+  <div class="data-flow-container">
+    <div class="spinner-container">
+      <mat-spinner diameter="30" strokeWidth="5" *ngIf="dataFlowService.isDataTransferring">
+      </mat-spinner>
+    </div>
+    <div class="error-container" *ngIf="!dataFlowService.isDataTransferring && dataFlowService.dataError">
+      <div class="error-response">
+        <div class="material-icons" matTooltip="Response Error!" matTooltipPosition="before">
+          error
+        </div>
+      </div>
+    </div>
   </div>
 </div>

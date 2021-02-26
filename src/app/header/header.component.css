@@ -1,8 +1,31 @@
+.title {
+  font-size: large;
+  justify-self: start;
+}
+
 .header-container {
   display: grid;
-  grid-template: auto / auto 30px;
-  padding: 0 15px;
+  grid-template: auto / min-content auto 30px;
+  grid-gap: 5px;
+  padding: 0 10px 0 6px;
   align-items: center;
+}
+
+.more-menu {
+  display: grid;
+  cursor: pointer;
+}
+
+.menu-button {
+  display: grid;
+  grid-template: auto / auto auto;
+  align-items: center;
+  grid-gap: 5px;
+}
+
+.more-menu:hover {
+  background: rgba(0,0,0,0.2);
+  border-radius: 5px;
 }
 
 .spinner-container ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {

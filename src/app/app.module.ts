@@ -9,6 +9,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -20,8 +22,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    MatTooltipModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
+    MatMenuModule,
     ReactiveFormsModule,
   ],
   providers: [],

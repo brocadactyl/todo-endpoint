@@ -3,6 +3,7 @@
   display: grid;
   grid-template: auto / auto;
   grid-row-gap: 5px;
+  margin: 5px;
 }
 
 .todo-item {
@@ -11,20 +12,18 @@
   grid-column-gap: 5px;
   background: #e3e3e3;
   padding: 5px;
+  border-radius: 5px;
 }
 
 .due-date-item {
-  border: 1px solid black;
   padding: 0 5px;
+  background: white;
+  border-radius: 5px;
 }
 
 .overdue {
   background: #ffbebe;
 }
-
-/*.normal {*/
-/*  background: #e3e3e3;*/
-/*}*/
 
 .complete {
   background: #d5ffbe;
@@ -32,4 +31,16 @@
 
 .complete .description {
   text-decoration: line-through;
+}
+
+::ng-deep .mat-checkbox-background {
+  background-color: #fff;
+}
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #00c800;
+}
+
+.check, ::ng-deep mat-checkbox.mat-checkbox {
+  display: grid;
 }

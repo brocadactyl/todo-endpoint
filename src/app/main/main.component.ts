@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MainService} from '../services/main.service';
 import {Subscription} from 'rxjs';
 import {Todo} from '../models/Todo.model';
@@ -9,9 +9,9 @@ import {FormControl, FormGroup} from '@angular/forms';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
 
-  constructor(private mainService: MainService) {
+  constructor(public mainService: MainService) {
   }
 
   private dataSub: Subscription;
@@ -112,5 +112,10 @@ export class MainComponent implements OnInit {
         return 'overdue';
       }
     }
+  }
+
+  ngOnDestroy(): void {
+    this.dataSub.unsubscribe();
+    this.patchSub.unsubscribe();
   }
 }
