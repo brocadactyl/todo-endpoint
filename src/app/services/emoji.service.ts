@@ -15,7 +15,7 @@ export class EmojiService {
     const numOfEmojis = Math.floor(Math.random() * maxNum + minNum);
     const emojiList = {
       1: '😃',
-      2: '🥳',
+      2: '🎊',
       3: '🎉',
       4: '👏',
       5: '👍',
